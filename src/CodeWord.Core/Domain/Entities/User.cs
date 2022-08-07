@@ -6,11 +6,13 @@ namespace CodeWord.Core.Domain.Entities
     {
         protected User() { }
 
-        public User(Guid userGUID)
+        public User(Guid userGUID, int competitionRoundId)
         {
             Guard.Against.Default<Guid>(userGUID);
+            Guard.Against.NegativeOrZero(competitionRoundId);
 
             this.UserGUID = userGUID;
+            this.CompetitionRoundId = competitionRoundId;
         }
 
         public Guid UserGUID { get; private set; }
@@ -20,6 +22,7 @@ namespace CodeWord.Core.Domain.Entities
         public Address HomeAddress { get; private set; }
         public string PhoneNumber { get; private set; }
         public bool HasOptIn { get; private set; }
+        public int CompetitionRoundId { get; private set; }
 
         public void SetPersonalDetails(string firstName, string lastName)
         {

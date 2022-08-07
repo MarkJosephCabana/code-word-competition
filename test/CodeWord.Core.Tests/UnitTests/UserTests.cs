@@ -12,10 +12,12 @@ namespace CodeWord.Core.Tests.UnitTests
         User _sut;
         Guid _userGUID;
         Fixture _fixture;
+        Random _random;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            _random = new Random();
             _fixture = new Fixture();
         }
 
@@ -23,7 +25,7 @@ namespace CodeWord.Core.Tests.UnitTests
         public void Setup()
         {
             _userGUID = Guid.NewGuid();
-            _sut = new User(_userGUID);
+            _sut = new User(_userGUID, _random.Next(1,100));
 
         }
 
@@ -37,15 +39,27 @@ namespace CodeWord.Core.Tests.UnitTests
         }
 
         [Test]
-        public void initilize_should_fail()
+        public void initilize_guid_should_fail()
         {
             //Arrange
             _userGUID = Guid.Empty;
             //Act
-            TestDelegate sut = () => new User(_userGUID);
+            TestDelegate sut = () => new User(_userGUID, _random.Next(1, 100));
             //Assert
             var assetion = Assert.Throws<ArgumentException>(sut);
             assetion.ParamName.Should().Be("userGUID");
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void initilize_competitionroundid_should_fail(int competitionRoundId)
+        {
+            //Arrange
+            //Act
+            TestDelegate sut = () => new User(_userGUID, competitionRoundId);
+            //Assert
+            var assetion = Assert.Throws<ArgumentException>(sut);
+            assetion.ParamName.Should().Be("competitionRoundId");
         }
 
         [TestCase("")]

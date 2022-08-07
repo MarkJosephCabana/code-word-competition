@@ -131,7 +131,7 @@ namespace CodeWord.Core.Tests.UnitTests
         public void startround_should_fail_on_dates_codewords_mismatch()
         {
             //Arrange
-            IEnumerable<string> codeWords = _fixture.CreateMany<string>(5);
+            IEnumerable<string> codeWords = _fixture.CreateMany<string>(1);
             _startDate = DateTime.Now;
             _endDate = _startDate.AddDays(2);
 

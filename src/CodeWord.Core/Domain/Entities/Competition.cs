@@ -16,7 +16,7 @@
         public DateRange CompetitionDates { get; private set; }
 
         private List<CompetitionRound> _competitionRounds;
-        public IReadOnlyList<CompetitionRound> CompetitionRounds
+        public virtual IReadOnlyList<CompetitionRound> CompetitionRounds
             => _competitionRounds?.AsReadOnly();
 
         public void StartCompetition(DateTime startDate, DateTime endDate, IEnumerable<string> codeWords)
@@ -30,7 +30,7 @@
             //One code word is assigned per day.
             //Ignore any excess codewords
             //but a code word must exist per day
-            if((endDate - startDate).TotalDays > codeWords.Count())
+            if((int)Math.Floor((endDate - startDate).TotalDays) > codeWords.Count())
                 throw new ArgumentException("Code word count does not match the date range", nameof(codeWords));
 
             CompetitionDates = new DateRange(startDate, endDate);
